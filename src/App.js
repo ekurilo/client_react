@@ -1,29 +1,33 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {fetchAllPosts} from './actions/posts';
+import {fetchAllContacts} from './actions/contacts';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as EntryActions from './actions/posts';
+import * as EntryActions from './actions/contacts';
+import ContactList from './components/ContactList';
 
 class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      posts: []
+      contacts: []
     }
   }
 
   componentDidMount() {
-    let posts = this.props.actions.fetchAllPosts();
+    this.props.actions.fetchAllContacts();
   }
 
   render() {
 
     return (
       <div className="App">
-        {this.props.posts.postsList.isLoading && <h2>Loading...</h2>}
+        {this.props.contacts.contactsList.isLoading && <h2>Loading...</h2>}
+        {!this.props.contacts.contactsList.isLoading
+        && this.props.contacts.contactsList.contacts.length > 0
+        && <ContactList contacts={this.props.contacts.contactsList.contacts} />}
       </div>
     );
   }
@@ -31,7 +35,7 @@ class App extends Component {
 
 function mapStateToProps(state)  {
   return {
-    posts: state.posts
+    contacts: state.contacts
   }
 }
 
