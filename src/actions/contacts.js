@@ -1,5 +1,16 @@
-export const fetchContacts = isLoading => ({type: 'FETCH_CONTACTS', isLoading});
-export const fetchContactsSuccess = contacts => ({type: 'FETCH_CONTACTS_SUCCESS', contacts});
+export const fetchContacts = isLoading => ({
+  type: 'FETCH_CONTACTS',
+  payload: {
+    isLoading
+  }
+});
+export const fetchContactsSuccess = contacts => ({
+  type: 'FETCH_CONTACTS_SUCCESS',
+  payload: {
+    contacts,
+    isLoading: false
+  }
+});
 
 export function fetchAllContacts() {
   return dispatch => {

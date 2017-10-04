@@ -4,8 +4,10 @@ import './App.css';
 import {fetchAllContacts} from './actions/contacts';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as EntryActions from './actions/contacts';
+import * as contactsActions from './actions/contacts';
+import * as contactActions from './actions/contact';
 import ContactList from './components/ContactList';
+import Spinner from 'react-spinner-material';
 
 class App extends Component {
 
@@ -17,17 +19,21 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.actions.fetchAllContacts();
+    this.props.contactsActions.fetchAllContacts();
+  }
+
+  handleAdd() {
+    this.props.contactActions.addContact({firstName: 'aaa', lastName: 'bbbb', tel: 'sdjshdjshjd'})
   }
 
   render() {
 
     return (
       <div className="App">
-        {this.props.contacts.contactsList.isLoading && <h2>Loading...</h2>}
-        {!this.props.contacts.contactsList.isLoading
-        && this.props.contacts.contactsList.contacts.length > 0
-        && <ContactList contacts={this.props.contacts.contactsList.contacts} />}
+        <Spinner size={200} visible={this.props.contacts.isLoading} className="Spinner"/>
+        {!this.props.contacts.isLoading
+        && <ContactList contacts={this.props.contacts.contacts} actions={this.props.contactActions} />}
+        <button onClick={this.handleAdd.bind(this)}>Add contact</button>
       </div>
     );
   }
@@ -40,7 +46,8 @@ function mapStateToProps(state)  {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(EntryActions, dispatch)
+  contactsActions: bindActionCreators(contactsActions, dispatch),
+  contactActions: bindActionCreators(contactActions, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,9 +1,10 @@
 
 import { combineReducers } from 'redux';
-import PostsReducer from './contacts'
+import ContactsReducer from './contacts'
+import ContactReducer from './contact'
 
 const rootReducer = combineReducers({
-  contacts: PostsReducer
+  contacts: ContactsReducer
 });
 
 export default rootReducer;
