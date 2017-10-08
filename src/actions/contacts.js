@@ -12,6 +12,48 @@ export const fetchContactsSuccess = contacts => ({
   }
 });
 
+
+export const addContactSuccess = createdContact => ({
+  type: 'ADD_CONTACT_SUCCESS',
+  payload: createdContact
+});
+
+export function newContact() {
+  return dispatch =>
+    dispatch({
+    type: 'NEW_CONTACT'
+  });
+}
+
+export const removeContactSuccess = href => ({
+  type: 'DELETE_CONTACT',
+  payload: href
+});
+
+export function addContact(contact) {
+  return dispatch => {
+    return fetch('http://localhost:8090/api/contacts', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(contact)
+    })
+      .then(response => {
+        console.log(response);
+        return response.json();
+      })
+      .then(json => dispatch(addContactSuccess(json)));
+  };
+}
+
+export function deleteContact(href) {
+  return dispatch => {
+    fetch(href, {method: 'delete'})
+      .then(response => dispatch(removeContactSuccess(href)));
+  };
+}
+
 export function fetchAllContacts() {
   return dispatch => {
     dispatch(fetchContacts(true));

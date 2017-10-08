@@ -10,6 +10,7 @@ import {Provider} from 'react-redux';
 import {fetchAllContacts} from './actions/contacts';
 import logger from 'redux-logger';
 import {MuiThemeProvider} from 'material-ui';
+import {BrowserRouter} from 'react-router-dom';
 
 const store = createStore(rootReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
@@ -18,7 +19,9 @@ const store = createStore(rootReducer,
 ReactDOM.render(
   <Provider store={store}>
     <MuiThemeProvider>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </MuiThemeProvider>
   </Provider>,
   document.getElementById('root'));

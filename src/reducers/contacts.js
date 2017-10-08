@@ -6,10 +6,17 @@ export default (state = {contacts: [], isLoading: false}, action) => {
     case 'FETCH_CONTACTS_SUCCESS':
       return Object.assign({}, state, action.payload);
 
+    case 'NEW_CONTACT':
+      return {
+        ...state,
+        isAdded: false
+      };
+
     case 'ADD_CONTACT_SUCCESS':
       return {
         ...state,
-        contacts: [...state.contacts, action.payload]
+        contacts: [...state.contacts, action.payload],
+        isAdded: true
       };
     case 'DELETE_CONTACT':
       return {
