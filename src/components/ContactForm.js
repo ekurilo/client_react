@@ -1,44 +1,21 @@
 import React, {Component} from 'react';
 import {FlatButton, TextField} from 'material-ui';
 import {NavLink} from 'react-router-dom';
+import {Field, Form, reduxForm} from 'redux-form';
 
-export default class ContactForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstName: '',
-      lastName: '',
-      tel: ''
-    };
-  }
-
-
-  handleChange(e) {
-    this.setState({[e.target.name]: e.target.value});
-  }
-
-  handleSubmit() {
-    this.props.onSubmit({
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      tel: this.state.tel
-    })
-
-  }
+class ContactForm extends React.Component {
 
   render() {
     return (
-      <div>
-        <div>
-          <TextField name="firstName" onChange={this.handleChange.bind(this)} value={this.state.firstName}/>
-          <TextField name="lastName" onChange={this.handleChange.bind(this)} value={this.state.lastName}/>
-          <TextField name="tel" onChange={this.handleChange.bind(this)} value={this.state.tel}/>
-        </div>
-        <div>
-          <FlatButton label={this.props.buttonLabels.save} primary={true} onClick={this.handleSubmit.bind(this)}/>
-          <NavLink to="/"><FlatButton label={this.props.buttonLabels.cancel} secondary={true}/> </NavLink>
-        </div>
-      </div>
+     <Form onSubmit={this.props.handleSubmit(this.props.addContact)} >
+       <Field name="firstName" type="text" component="input"/>
+       <Field name="lastName" type="text" component="input" />
+       <Field name="tel" type="text" component="input"/>
+       <button type="submit">Add</button>
+     </Form>
     );
   }
 };
+
+export default reduxForm({
+  form: 'contactForm'})(ContactForm)

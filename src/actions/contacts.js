@@ -18,21 +18,17 @@ export const addContactSuccess = createdContact => ({
   payload: createdContact
 });
 
-export function newContact() {
-  return dispatch =>
+export const newContact = () => dispatch =>
     dispatch({
     type: 'NEW_CONTACT'
   });
-}
 
 export const removeContactSuccess = href => ({
   type: 'DELETE_CONTACT',
   payload: href
 });
 
-export function addContact(contact) {
-  return dispatch => {
-    return fetch('http://localhost:8090/api/contacts', {
+export const addContact = (contact) => dispatch => fetch('http://localhost:8090/api/contacts', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
@@ -40,12 +36,9 @@ export function addContact(contact) {
       body: JSON.stringify(contact)
     })
       .then(response => {
-        console.log(response);
         return response.json();
       })
       .then(json => dispatch(addContactSuccess(json)));
-  };
-}
 
 export function deleteContact(href) {
   return dispatch => {

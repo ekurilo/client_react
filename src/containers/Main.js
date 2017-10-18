@@ -22,10 +22,6 @@ class Main extends Component {
     this.props.contactsActions.fetchAllContacts();
   }
 
-  handleAdd() {
-    this.props.contactActions.addContact({firstName: 'aaa', lastName: 'bbbb', tel: 'sdjshdjshjd'})
-  }
-
   render() {
 
     return (

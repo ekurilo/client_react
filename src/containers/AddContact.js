@@ -6,8 +6,13 @@ import {addContact, newContact} from '../actions/contacts';
 
 class AddContact extends React.Component {
 
-  handleAdd(contact) {
-    this.props.addContact(contact);
+  state = {
+    redirect: false
+  }
+
+  handleAdd = (contact) => {
+    this.props.addContact(contact)
+      .then(response => this.setState({ redirect:true }))
   }
 
   buttonLabels = {
@@ -19,9 +24,9 @@ class AddContact extends React.Component {
     return (
       <div>
         {
-          this.props.contacts.isAdded ?
+          this.state.redirect ?
             <Redirect to="/"/> :
-            <ContactForm onSubmit={this.handleAdd.bind(this)} buttonLabels={this.buttonLabels}/>
+            <ContactForm addContact={this.handleAdd} buttonLabels={this.buttonLabels}/>
         }
 
       </div>
