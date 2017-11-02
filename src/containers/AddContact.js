@@ -26,7 +26,7 @@ class AddContact extends React.Component {
         {
           this.state.redirect ?
             <Redirect to="/"/> :
-            <ContactForm addContact={this.handleAdd} buttonLabels={this.buttonLabels}/>
+            <ContactForm onSubmit={this.handleAdd} buttonLabels={this.buttonLabels}/>
         }
 
       </div>

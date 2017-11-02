@@ -1,15 +1,11 @@
-export const fetchContacts = isLoading => ({
+const contactUrl = 'http://localhost:8090/api/contacts';
+
+export const fetchContacts = () => ({
   type: 'FETCH_CONTACTS',
-  payload: {
-    isLoading
-  }
 });
 export const fetchContactsSuccess = contacts => ({
   type: 'FETCH_CONTACTS_SUCCESS',
-  payload: {
-    contacts,
-    isLoading: false
-  }
+  payload: contacts
 });
 
 
@@ -28,7 +24,23 @@ export const removeContactSuccess = href => ({
   payload: href
 });
 
-export const addContact = (contact) => dispatch => fetch('http://localhost:8090/api/contacts', {
+export const fetchingContact = id => dispatch =>
+  dispatch ({
+  type: 'FETCHING_CONTACT',
+  payload: id
+});
+
+export const updateContactSuccess = contact => ({
+  type: 'UPDATE_CONTACT_SUCCESS',
+  payload: contact
+});
+
+export const fetchContactSuccess = contact => ({
+  type: 'FETCH_CONTACT_SUCCESS',
+  payload: contact
+});
+
+export const addContact = (contact) => dispatch => fetch(contactUrl, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
@@ -47,10 +59,29 @@ export function deleteContact(href) {
   };
 }
 
+export const fetchContact = id => dispatch => {
+  dispatch(fetchingContact(id));
+  return fetch(`${contactUrl}/${id}`)
+    .then(resp => resp.json())
+    .then(json => dispatch(fetchContactSuccess(json)))
+};
+
+export const updateContact = (id, contact) => dispatch => {
+  return fetch(`${contactUrl}/${id}`, {
+    method: 'put',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(contact)
+  })
+    .then(response => response.json())
+    .then(json => dispatch(updateContactSuccess(json)))
+};
+
 export function fetchAllContacts() {
   return dispatch => {
-    dispatch(fetchContacts(true));
-    return fetch('http://localhost:8090/api/contacts')
+    dispatch(fetchContacts());
+    return fetch(contactUrl)
       .then(response => response.json())
       .then(json => dispatch(fetchContactsSuccess(json._embedded.contacts)));
   };
